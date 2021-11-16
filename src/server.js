@@ -5,6 +5,7 @@ import { Server } from 'socket.io';
 import axios from 'axios';
 import { validate } from 'jsonschema';
 import { MoveSchemas } from './validation/move.js';
+import { ShootSchemas } from './validation/shoot.js';
 import http from 'http';
 
 // TODO - Register player (get secret key for actions later on)
@@ -67,15 +68,32 @@ app.post('/move/:player', (req, res) => {
   const validation = validate(req.body, MoveSchemas.action);
   if (!validation.valid) {
     return res.status(400).send({
-      message: 'Invalid move requested',
+      message: 'Invalid move action requested',
       errors: validation.errors.map(e => e.stack)
     });
   }
 
-  // TODO - Actually send move towards Phaser via websocket
+  // TODO - Actually send move action towards Phaser via websocket
 
   res.send({
     message: `Successfully requested move of player`
+  });
+});
+
+app.post('/shoot', (req, res) => {
+  // TODO - Setup error handler for this
+  const validation = validate(req.body, ShootSchemas.action);
+  if (!validation.valid) {
+    return res.status(400).send({
+      message: 'Invalid shoot action requested',
+      errors: validation.errors.map(e => e.stack)
+    });
+  }
+
+  // TODO - Actually send shoot action towards Phaser via websocket
+
+  res.send({
+    message: `Successfully requested shoot action for player`
   });
 });
 
