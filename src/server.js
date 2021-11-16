@@ -1,18 +1,23 @@
 import config from './config/config.js'
 import express from 'express';
 import cors from 'cors';
-import SocketIO from 'socket.io';
+import { Server } from 'socket.io';
 import axios from 'axios';
+import { validate } from 'jsonschema';
+import { MoveSchemas } from './validation/move.js';
+import http from 'http';
+
+// TODO - Register player (get secret key for actions later on)
 
 const app = express();
-const server = require('http').createServer(app);
+const httpServer = http.createServer(app);
 
 app.use(cors({
   origin: `http://localhost:${config.frontend.port}`,
 }));
 app.use(express.json({limit: '1mb'}));    // Allow bigger body payloads
 
-const io = SocketIO(server, {
+const io = new Server(httpServer, {
   cors: {
     origin: `http://localhost:${config.frontend.port}`,
     methods: ["GET", "POST"]
@@ -54,9 +59,25 @@ app.post('/display', (req, res) => {
       error: error
     })
   });
-
 });
 
-server.listen(config.general.port, () => {
+app.post('/move/:player', (req, res) => {
+  // TODO - Setup error handler for this
+  const validation = validate(req.body, MoveSchemas.action);
+  if (!validation.valid) {
+    return res.status(400).send({
+      message: 'Invalid move requested',
+      errors: validation.errors.map(e => e.stack)
+    });
+  }
+
+  // TODO - Actually send move towards Phaser via websocket
+
+  res.send({
+    message: `Successfully requested move of player`
+  });
+});
+
+httpServer.listen(config.general.port, () => {
   console.log(`Starting not-agar.io backend API on http://localhost:${config.general.port}`);
 });
