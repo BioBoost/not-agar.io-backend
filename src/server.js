@@ -39,6 +39,7 @@ app.get('/', (req, res) => {
   })
 });
 
+// TODO - Should we not better do this via websocket ?
 app.post('/display', (req, res) => {
   if (!config.display.enabled) {
     return res.send({

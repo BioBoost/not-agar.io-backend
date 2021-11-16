@@ -6,9 +6,32 @@ This backend tunnels API requests via WebSockets to the Phaser game. It also all
 
 The Phaser game can than be controller using this backend API.
 
-## REST API
+## API Description
 
-TODO
+* **GET "/"**
+  * Just some welcome message and API version
+  * Returns json object
+    ```json
+    {
+      "message": "Welcome to not-agar.io backend API",
+      "version": "0.1.0"
+    }
+    ```
+
+* POST "/move/:player"
+  * Allow `player` to move towards a direction with a given distance
+    * *At this time `player` is not properly defined*
+  * Expects json object
+      ```json
+      {
+        "blob": "red",
+        "direction": "up",
+        "distance": 3
+      }
+      ```
+      * `blob` can be any of `red`, `green`, `blue` or `white`
+      * `direction` can be any of `up`, `down`, `left` or `right`
+      * `distance` should be positive integer
 
 ## Related Repositories
 
