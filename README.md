@@ -18,9 +18,9 @@ The Phaser game can than be controller using this backend API.
     }
     ```
 
-* POST "/move/:player"
+* **POST "/move/:player"**
   * Allow `player` to move towards a direction with a given distance
-    * *At this time `player` is not properly defined*
+    * *At this time `player` is not properly defined but is expected to be a `string`*
   * Expects json object
       ```json
       {
@@ -32,6 +32,26 @@ The Phaser game can than be controller using this backend API.
       * `blob` can be any of `red`, `green`, `blue` or `white`
       * `direction` can be any of `up`, `down`, `left` or `right`
       * `distance` should be positive integer
+
+* **POST "/shoot"**
+  * Allow a blob to shoot at another blob
+  * Expects json object
+      ```json
+      {
+        "target": {
+          "player": "nico",
+          "blob": "red"
+        },
+        "source": {
+          "player": "dennis",
+          "blob": "green"
+        }
+      }
+      ```
+      * `target` contains the information of the blob who is being shot at
+      * `source` contains the information of the blob who is doing the shooting
+      * `blob` can be any of `red`, `green`, `blue` or `white`
+      * *At this time `player` is not properly defined but is expected to be a `string`*
 
 ## Related Repositories
 

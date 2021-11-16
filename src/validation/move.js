@@ -1,4 +1,11 @@
 const MoveSchemas = {
+  params: {
+    "type": "object",
+    "properties": {
+      "player": { "type": "string" },
+    },
+    "required": ["player"]
+  },
   action: {
     "type": "object",
     "properties": {

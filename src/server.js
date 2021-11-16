@@ -65,6 +65,15 @@ app.post('/display', (req, res) => {
 
 app.post('/move/:player', (req, res) => {
   // TODO - Setup error handler for this
+  const paramsValidation = validate(req.params, MoveSchemas.params);
+  if (!paramsValidation.valid) {
+    return res.status(400).send({
+      message: 'Invalid move params',
+      errors: paramsValidation.errors.map(e => e.stack)
+    });
+  }
+
+  // TODO - Setup error handler for this
   const validation = validate(req.body, MoveSchemas.action);
   if (!validation.valid) {
     return res.status(400).send({
