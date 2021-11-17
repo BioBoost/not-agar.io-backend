@@ -6,6 +6,20 @@ This backend tunnels API requests via WebSockets to the Phaser game. It also all
 
 The Phaser game can than be controller using this backend API.
 
+## Getting Started
+
+Install the dependencies:
+
+```bash
+npm install
+```
+
+Start the development script:
+
+```bash
+npm run dev
+```
+
 ## API Description
 
 * **GET "/"**
