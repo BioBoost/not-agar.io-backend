@@ -82,11 +82,16 @@ app.post('/move/:player', (req, res) => {
     });
   }
 
-  // TODO - Actually send move action towards Phaser via websocket
+  // Send to Phaser frontend
+  const details = {
+    player: req.params.player,
+    blob: req.body.blob,
+    direction: req.body.direction,
+    distance: req.body.distance
+  };
+  io.emit("move", details);
 
-  res.send({
-    message: `Successfully requested move of player`
-  });
+  res.send(details);
 });
 
 app.post('/shoot', (req, res) => {
@@ -99,11 +104,10 @@ app.post('/shoot', (req, res) => {
     });
   }
 
-  // TODO - Actually send shoot action towards Phaser via websocket
+  // Send to Phaser frontend
+  io.emit("shoot", req.body);
 
-  res.send({
-    message: `Successfully requested shoot action for player`
-  });
+  res.send(req.body);
 });
 
 httpServer.listen(config.general.port, () => {
